@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "metazone-c4f18",
+    "firebase firestore:rules:get": "metazone-c4f18"
+  },
+  "targets": {},
+  "etags": {}
+}

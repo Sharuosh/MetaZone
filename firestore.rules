@@ -1,0 +1,100 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function owner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function participant(contextId) {
+      return exists(
+        /databases/$(database)/documents/chat_contexts/$(contextId)/participants/$(request.auth.uid)
+      );
+    }
+
+    function arObjectCanWrite(contextId) {
+      return
+        get(/databases/$(database)/documents/chat_contexts/$(contextId)).data.type != 'AR_OBJECT'
+        ||
+        (
+          get(/databases/$(database)/documents/chat_contexts/$(contextId)).data.rules.writePolicy
+            == 'NEAR_OR_FOLLOW'
+          &&
+          (
+            get(/databases/$(database)/documents/chat_contexts/$(contextId)/participants/$(request.auth.uid)).data.nearObject == true
+            ||
+            get(/databases/$(database)/documents/chat_contexts/$(contextId)/participants/$(request.auth.uid)).data.followed == true
+          )
+        );
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn();
+      allow write: if owner(userId);
+
+      match /notifications/{id} {
+        allow read, update, delete: if owner(userId);
+        allow create: if false;
+      }
+
+      match /followed_objects/{objectId} {
+        allow read, write: if owner(userId);
+      }
+    }
+
+    match /usernames/{username} {
+      allow read: if true;
+      allow create: if signedIn()
+        && !exists(/databases/$(database)/documents/usernames/$(username));
+      allow delete: if signedIn();
+      allow update: if false;
+    }
+
+    match /chat_contexts/{contextId} {
+      allow read: if signedIn();
+      allow create, update, delete: if false;
+
+      match /participants/{userId} {
+        allow read: if signedIn();
+        allow create, update: if owner(userId);
+        allow delete: if false;
+      }
+
+      match /messages/{messageId} {
+        allow read: if signedIn();
+        allow create: if signedIn()
+          && participant(contextId)
+          && arObjectCanWrite(contextId);
+        allow update, delete: if false;
+      }
+    }
+
+    match /ar_object_follows/{objectId} {
+      allow read: if true;
+
+      match /followers/{userId} {
+        allow read: if true;
+        allow create, delete: if owner(userId);
+        allow update: if false;
+      }
+    }
+
+    match /chat_reports/{id} {
+      allow create: if signedIn();
+      allow read, update, delete: if false;
+    }
+
+    match /user_moderation/{userId} {
+      allow read, write: if false;
+    }
+
+    match /notification_dedup/{id} {
+      allow read, write: if false;
+    }
+  }
+}
