@@ -1,4 +1,0 @@
-enum VisionMode {
-  camera,
-  glasses,
-}

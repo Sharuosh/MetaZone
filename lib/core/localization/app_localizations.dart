@@ -1,47 +1,63 @@
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
-class AppLocalizations {
-  final String locale;
-
+final class AppLocalizations {
   AppLocalizations(this.locale);
 
-  static Map<String, dynamic>? _localizedStrings;
+  final Locale locale;
 
-  /// تحميل ملف JSON الخاص باللغة
-  Future<bool> load() async {
-    try {
-      final jsonString =
-      await rootBundle.loadString('assets/lang/$locale.json');
+  late final Map<String, String> _translations;
 
-      _localizedStrings = json.decode(jsonString);
-      return true;
-    } catch (e) {
-      print("❌ Localization Load Error: $e");
-      _localizedStrings = {};
-      return false;
-    }
+  static AppLocalizations of(BuildContext context) {
+    final instance = Localizations.of<AppLocalizations>(
+      context,
+      AppLocalizations,
+    );
+
+    assert(
+    instance != null,
+    'AppLocalizations not found in widget tree.',
+    );
+
+    return instance!;
   }
 
-  /// 🔹 دالة الترجمة الأساسية
-  String tr(String key) {
-    return _localizedStrings?[key] ?? key;
+  Future<void> load() async {
+    final jsonString = await rootBundle.loadString(
+      'assets/translations/${locale.languageCode}.json',
+    );
+
+    final Map<String, dynamic> jsonMap =
+    json.decode(jsonString) as Map<String, dynamic>;
+
+    _translations = jsonMap.map(
+          (key, value) => MapEntry(
+        key,
+        value.toString(),
+      ),
+    );
   }
 
-  /// 🔹 دالة translate() — مطلوبة لـ LocalizationDebug
-  String translate(String key) {
-    return _localizedStrings?[key] ?? "MISSING";
+  String translate(
+      String key,
+      ) {
+    return _translations[key] ?? key;
   }
 
-  /// 🔹 إرجاع كل مفاتيح الترجمة لمود debug
-  List<String> get allKeys {
-    if (_localizedStrings == null) return [];
-    return _localizedStrings!.keys.toList();
+  String call(
+      String key,
+      ) {
+    return translate(key);
   }
 
-  /// 🔹 Localizations.of() handler
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  bool contains(
+      String key,
+      ) {
+    return _translations.containsKey(key);
   }
+
+  Map<String, String> get values =>
+      Map.unmodifiable(_translations);
 }

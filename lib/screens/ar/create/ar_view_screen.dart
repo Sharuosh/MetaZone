@@ -2,7 +2,10 @@
 // MetaZone — AR Live View (Flutter ↔ Unity Bridge)
 
 import 'package:flutter/material.dart';
+import 'package:flutter_embed_unity/flutter_embed_unity.dart';
+
 import '../../../core/theme/theme.dart';
+import '../../../services/unity_bridge.dart';
 
 class ARViewScreen extends StatefulWidget {
   const ARViewScreen({super.key});
@@ -12,66 +15,86 @@ class ARViewScreen extends StatefulWidget {
 }
 
 class _ARViewScreenState extends State<ARViewScreen> {
-  UnityWidgetController? _unityController;
   bool _isUnityReady = false;
 
-  // ===============================
-  // Unity Lifecycle
-  // ===============================
-  void _onUnityCreated(UnityWidgetController controller) {
-    _unityController = controller;
+  // ==========================================================
+  // Unity Messages
+  // ==========================================================
+
+  void _onUnityMessage(String message) {
+    debugPrint("Unity → Flutter : $message");
+
+    switch (message) {
+      case "UNITY_READY":
+        if (!_isUnityReady) {
+          setState(() {
+            _isUnityReady = true;
+          });
+
+          UnityBridge.instance.attach();
+        }
+        break;
+
+      case "SCENE_SAVED":
+        debugPrint("Scene Saved");
+        break;
+
+      case "SCENE_LOADED":
+        debugPrint("Scene Loaded");
+        break;
+
+      default:
+        debugPrint(message);
+        break;
+    }
   }
 
-  void _onUnityMessage(dynamic message) {
-    debugPrint("Unity → Flutter: $message");
+  @override
+  void dispose() {
+    UnityBridge.instance.detach();
+    super.dispose();
   }
 
-  void _onUnityLoaded() {
-    setState(() => _isUnityReady = true);
-  }
-
-  // ===============================
+  // ==========================================================
   // Unity Commands
-  // ===============================
-  void _placeObject() {
+  // ==========================================================
+
+  void _selectDefaultObject() {
     if (!_isUnityReady) return;
 
-    _unityController?.postMessage(
-      'FlutterBridge', // GameObject name in Unity
-      'PlaceObject',   // Method name
-      'cube',          // Payload (type / id)
-    );
+    UnityBridge.instance.selectAsset("cube_001");
   }
 
   void _clearScene() {
     if (!_isUnityReady) return;
 
-    _unityController?.postMessage(
-      'FlutterBridge',
-      'ClearScene',
-      '',
-    );
+    UnityBridge.instance.clearScene();
   }
 
-  // ===============================
+  // ==========================================================
   // UI
-  // ===============================
+  // ==========================================================
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // ================= UNITY VIEW =================
-          UnityWidget(
-            onUnityCreated: _onUnityCreated,
-            onUnityMessage: _onUnityMessage,
-            onUnityLoaded: _onUnityLoaded,
-            useAndroidViewSurface: false, // 🔥 ده أهم سطر
-            fullscreen: true,
+          // ==================================================
+          // UNITY VIEW
+          // ==================================================
+
+          Positioned.fill(
+            child: EmbedUnity(
+              onMessageFromUnity: _onUnityMessage,
+            ),
           ),
 
-          // ================= TOP BAR =================
+          // ==================================================
+          // TOP BAR
+          // ==================================================
+
           Positioned(
             top: 48,
             left: 16,
@@ -91,7 +114,10 @@ class _ARViewScreenState extends State<ARViewScreen> {
             ),
           ),
 
-          // ================= BOTTOM CONTROLS =================
+          // ==================================================
+          // BOTTOM CONTROLS
+          // ==================================================
+
           Positioned(
             bottom: 40,
             left: 0,
@@ -100,19 +126,24 @@ class _ARViewScreenState extends State<ARViewScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _mainActionButton(
-                  icon: Icons.add_circle,
-                  label: "Place Object",
-                  onTap: _placeObject,
+                  icon: Icons.view_in_ar,
+                  label: "Select Object",
+                  onTap: _selectDefaultObject,
                 ),
+
                 const SizedBox(height: 12),
-                if (!_isUnityReady)
-                  Text(
+
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: _isUnityReady ? 0 : 1,
+                  child: Text(
                     "Loading AR Engine...",
                     style: AppTextStyles.caption(
                       size: 12,
                       color: Colors.white70,
                     ),
                   ),
+                ),
               ],
             ),
           ),
@@ -121,9 +152,10 @@ class _ARViewScreenState extends State<ARViewScreen> {
     );
   }
 
-  // ===============================
+  // ==========================================================
   // UI Components
-  // ===============================
+  // ==========================================================
+
   Widget _glassButton({
     required IconData icon,
     required VoidCallback onTap,
@@ -135,7 +167,9 @@ class _ARViewScreenState extends State<ARViewScreen> {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(.08),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.primary.withOpacity(.35)),
+          border: Border.all(
+            color: AppColors.primary.withOpacity(.35),
+          ),
           boxShadow: [
             BoxShadow(
               color: AppColors.primary.withOpacity(.35),
@@ -143,7 +177,11 @@ class _ARViewScreenState extends State<ARViewScreen> {
             ),
           ],
         ),
-        child: Icon(icon, color: AppColors.primary, size: 26),
+        child: Icon(
+          icon,
+          color: AppColors.primary,
+          size: 26,
+        ),
       ),
     );
   }
@@ -169,12 +207,20 @@ class _ARViewScreenState extends State<ARViewScreen> {
                 ),
               ],
             ),
-            child: Icon(icon, size: 40, color: Colors.black),
+            child: Icon(
+              icon,
+              size: 40,
+              color: Colors.black,
+            ),
           ),
+
           const SizedBox(height: 8),
+
           Text(
             label,
-            style: AppTextStyles.caption(color: Colors.white),
+            style: AppTextStyles.caption(
+              color: Colors.white,
+            ),
           ),
         ],
       ),

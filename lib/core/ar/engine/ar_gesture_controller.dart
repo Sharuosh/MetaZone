@@ -1,55 +1,25 @@
-import 'package:flutter/material.dart';
-import 'ar_interaction_engine.dart';
-
 class ARGestureController {
-  final ARInteractionEngine engine;
+  const ARGestureController();
 
-  ARGestureController({required this.engine});
+  double normalizeRotation(double angle) {
+    var value = angle % 360;
 
-  // =========================
-  // TAP
-  // =========================
+    if (value < 0) {
+      value += 360;
+    }
 
-  void onTap({
-    required Offset position,
-    required Size screenSize,
-  }) {
-    engine.handleTap(position, screenSize);
+    return value;
   }
 
-  // =========================
-  // DRAG
-  // =========================
+  double normalizeScale(
+      double scale, {
+        double min = .1,
+        double max = 10,
+      }) {
+    if (scale < min) return min;
 
-  void onPanStart() {
-    engine.startDragging();
-  }
+    if (scale > max) return max;
 
-  void onPanEnd() {
-    engine.endGesture();
-  }
-
-  // =========================
-  // SCALE
-  // =========================
-
-  void onScaleStart() {
-    engine.startScaling();
-  }
-
-  void onScaleEnd() {
-    engine.endGesture();
-  }
-
-  void onScaleUpdate(double scaleDelta) {
-    // لاحقاً ممكن نربطه بالـ selected object transform
-  }
-
-  // =========================
-  // ROTATE
-  // =========================
-
-  void onRotate(double delta) {
-    // لاحقاً نضيف rotation handling
+    return scale;
   }
 }

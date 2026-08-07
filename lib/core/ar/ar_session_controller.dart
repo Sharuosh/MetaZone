@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../vision/vision_mode.dart';
-
+import 'enums/vision_mode.dart';
 class ARSessionController extends ChangeNotifier {
 
   /// ================================
