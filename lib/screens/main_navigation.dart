@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../../core/theme/theme.dart';
+import '../../core/theme/app_text_styles.dart';
 
 // Screens
 import 'home/home_screen.dart';
@@ -191,9 +192,8 @@ class _MainNavigationState extends State<MainNavigation>
 
           Text(
             label,
-            style: AppTextStyles
-                .caption(size: 11)
-                .copyWith(
+            style: AppTextStyles.caption.copyWith(
+              fontSize: 11,
               color: active
                   ? AppColors.primary
                   : AppColors.textSoft,

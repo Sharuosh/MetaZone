@@ -106,7 +106,7 @@ class _HeroSection extends StatelessWidget {
 
       progress: .74,
 
-      status: "Draft",
+      status: HeroProjectStatus.draft,
 
       lastEdited: "2 hours ago",
 
@@ -114,7 +114,6 @@ class _HeroSection extends StatelessWidget {
 
       objects: 42,
 
-      creator: "You",
 
       likes: 284,
 
@@ -122,7 +121,6 @@ class _HeroSection extends StatelessWidget {
 
       collaborators: 4,
 
-      featured: true,
 
       onContinue: () {},
 
@@ -364,23 +362,7 @@ class _CreateTypesSection extends StatelessWidget {
               final item = types[index];
 
               return CreateTypeCard(
-                title: item.title,
-
-                subtitle: item.subtitle,
-
-                icon: item.icon,
-
-                variant: item.variant,
-
-                recommended:
-                item.recommended,
-
-                featureCount:
-                item.featureCount,
-
-                accentColor:
-                item.accentColor,
-
+                type: item,
                 selected: index == 0,
               );
             },
@@ -414,7 +396,6 @@ class _RecentProjectsSection extends StatelessWidget {
 
               progress: .74,
 
-              creator: "You",
 
               objects: 42,
 
@@ -432,8 +413,6 @@ class _RecentProjectsSection extends StatelessWidget {
 
               progress: .53,
 
-              creator: "You",
-
               objects: 19,
 
               collaborators: 2,
@@ -448,7 +427,6 @@ class _RecentProjectsSection extends StatelessWidget {
 
               progress: .91,
 
-              creator: "You",
 
               objects: 66,
 

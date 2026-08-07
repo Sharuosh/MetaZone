@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../glass/glass_button.dart';
 import '../glass/glass_card.dart';
 import '../glass/glass_chip.dart';
+import '../glass/glass_container.dart';
 
 class AIBanner extends StatefulWidget {
   const AIBanner({
@@ -174,33 +175,33 @@ class _AIBannerState
                         GlassChip(
                           label:
                           "Text → 3D",
-                          leadingIcon:
+                          icon:
                           Icons
                               .text_fields,
                         ),
                         GlassChip(
                           label:
                           "Image → 3D",
-                          leadingIcon:
+                          icon:
                           Icons.image,
                         ),
                         GlassChip(
                           label:
                           "Voice AI",
-                          leadingIcon:
+                          icon:
                           Icons.mic,
                         ),
                         GlassChip(
                           label:
                           "Scene AI",
-                          leadingIcon:
+                          icon:
                           Icons
                               .landscape,
                         ),
                         GlassChip(
                           label:
                           "World AI",
-                          leadingIcon:
+                          icon:
                           Icons.public,
                         ),
                       ],

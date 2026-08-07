@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../glass/glass_button.dart';
 import '../glass/glass_card.dart';
+import '../glass/glass_container.dart';
 
 class RecentProjects extends StatelessWidget {
   const RecentProjects({

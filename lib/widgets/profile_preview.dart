@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../core/theme/theme.dart';
 
 /// --------------------------------------------------------------
-///   META ZONE — PROFILE PREVIEW (Followers / Following / Search)
+/// META ZONE — PROFILE PREVIEW
 /// --------------------------------------------------------------
 
 class ProfilePreview extends StatelessWidget {
-  final String userId;
-  final String name;
-  final String handle;
-  final String bio;
-  final bool online;
-  final bool mutual;
-  final VoidCallback? onOpen;
-  final VoidCallback? onAction;
-
   const ProfilePreview({
     super.key,
     required this.userId,
@@ -27,29 +19,46 @@ class ProfilePreview extends StatelessWidget {
     this.onAction,
   });
 
+  final String userId;
+  final String name;
+  final String handle;
+  final String bio;
+
+  final bool online;
+  final bool mutual;
+
+  final VoidCallback? onOpen;
+  final VoidCallback? onAction;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onOpen,
+      behavior: HitTestBehavior.opaque,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        margin: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 8,
+        ),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: AppColors.card,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+          borderRadius: AppRadius.xlRadius,
+          border: Border.all(
+            color: AppColors.border,
+          ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(.10),
+              color: AppColors.primary.withValues(
+                alpha: .10,
+              ),
               blurRadius: 10,
               offset: const Offset(0, 3),
             ),
           ],
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Avatar
             Stack(
               children: [
                 CircleAvatar(
@@ -57,9 +66,9 @@ class ProfilePreview extends StatelessWidget {
                   backgroundColor: AppColors.cardSoft,
                   child: Text(
                     name[0].toUpperCase(),
-                    style: TextStyle(
-                      color: AppColors.primary,
+                    style: AppTextStyles.title.copyWith(
                       fontSize: 20,
+                      color: AppColors.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -74,54 +83,85 @@ class ProfilePreview extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.greenAccent,
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.card, width: 2),
+                        border: Border.all(
+                          color: AppColors.card,
+                          width: 2,
+                        ),
                       ),
                     ),
-                  )
+                  ),
               ],
             ),
 
             const SizedBox(width: 14),
 
-            // Info Column
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: Text(
                           name,
-                          style: AppTextStyles.title(size: 15),
+                          style:
+                          AppTextStyles.title.copyWith(
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                       if (mutual)
                         Container(
                           padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(.12),
-                            borderRadius: BorderRadius.circular(8),
+                            color: AppColors.primary
+                                .withValues(
+                              alpha: .12,
+                            ),
+                            borderRadius:
+                            AppRadius.mdRadius,
                           ),
                           child: Text(
-                            "Mutual",
-                            style: TextStyle(
-                              color: AppColors.primary,
+                            'Mutual',
+                            style:
+                            AppTextStyles.caption.copyWith(
                               fontSize: 11,
-                              fontWeight: FontWeight.w600,
+                              color:
+                              AppColors.primary,
+                              fontWeight:
+                              FontWeight.w600,
                             ),
                           ),
                         ),
                     ],
                   ),
-                  Text(handle, style: AppTextStyles.caption()),
+
+                  Text(
+                    handle,
+                    style:
+                    AppTextStyles.caption.copyWith(
+                      color:
+                      AppColors.textSecondary,
+                    ),
+                  ),
+
                   const SizedBox(height: 6),
+
                   Text(
                     bio,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.body(size: 12),
+                    style:
+                    AppTextStyles.body.copyWith(
+                      fontSize: 12,
+                      color:
+                      AppColors.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -129,26 +169,40 @@ class ProfilePreview extends StatelessWidget {
 
             const SizedBox(width: 10),
 
-            // Action Button
             ElevatedButton(
               onPressed: onAction,
               style: ElevatedButton.styleFrom(
-                backgroundColor: mutual ? Colors.transparent : AppColors.primary,
-                foregroundColor: mutual ? AppColors.primary : Colors.black,
+                backgroundColor: mutual
+                    ? Colors.transparent
+                    : AppColors.primary,
+                foregroundColor: mutual
+                    ? AppColors.primary
+                    : Colors.black,
                 padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
                 side: mutual
-                    ? BorderSide(color: AppColors.primary.withOpacity(.5))
+                    ? BorderSide(
+                  color: AppColors.primary
+                      .withValues(
+                    alpha: .50,
+                  ),
+                )
                     : BorderSide.none,
               ),
               child: Text(
-                mutual ? "Mutual" : "Follow",
-                style: TextStyle(
-                  fontSize: 13,
+                mutual ? 'Mutual' : 'Follow',
+                style:
+                AppTextStyles.label.copyWith(
                   fontWeight: FontWeight.w600,
+                  color: mutual
+                      ? AppColors.primary
+                      : Colors.black,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
