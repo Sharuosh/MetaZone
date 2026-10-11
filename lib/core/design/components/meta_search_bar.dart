@@ -32,12 +32,12 @@ class MetaSearchBar extends StatelessWidget {
       autofocus: autofocus,
       onChanged: onChanged,
       onSubmitted: onSubmitted,
-      style: AppTextStyles.body.copyWith(
+      style: AppTextStyles.body(
         color: AppColors.text,
       ),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: AppTextStyles.body.copyWith(
+        hintStyle: AppTextStyles.body(
           color: AppColors.textMuted,
         ),
         prefixIcon: const Icon(

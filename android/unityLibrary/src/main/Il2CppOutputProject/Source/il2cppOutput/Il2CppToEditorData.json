@@ -1,0 +1,9 @@
+{
+  "Messages": [
+    {
+      "Type": 1,
+      "Text": "Unity.IL2CPP.Building.BuilderFailedException: Build failed with 1 successful nodes and 1 failed ones\r\nAnnotation: CopyFiles C:/Users/A/AndroidStudioProjects/M_Z/android/unityLibrary/src/main/jniLibs/arm64-v8a/libil2cpp.dbg.so\r\nCmdline: ul\r\nExitCode: 112\r\nStdout: \nCopying the file failed: There is not enough space on the disk.\r\n\r\n   at il2cpp.Program.DoRun(TinyProfiler2 tinyProfiler, String[] args, RuntimePlatform platform, Il2CppCommandLineArguments il2CppCommandLineArguments, BuildingOptions buildingOptions, Boolean throwExceptions)"
+    }
+  ],
+  "CommandLine": "--compile-cpp --platform=Android --architecture=arm64 --outputpath=C:/Users/A/AndroidStudioProjects/M_Z/android/unityLibrary/src/main/jniLibs/arm64-v8a/libil2cpp.so --baselib-directory=C:/Users/A/AndroidStudioProjects/M_Z/android/unityLibrary/src/main/jniStaticLibs/arm64-v8a --configuration=Release --dotnetprofile=unityaot-linux --profiler-report --profiler-output-file=C:/Users/A/AndroidStudioProjects/M_Z/android/unityLibrary/build/il2cpp_arm64-v8a_Release/il2cpp_conv.traceevents --print-command-line --data-folder=C:/Users/A/AndroidStudioProjects/M_Z/android/unityLibrary/src/main/Il2CppOutputProject/Source/il2cppOutput/data --generatedcppdir=C:/Users/A/AndroidStudioProjects/M_Z/android/unityLibrary/src/main/Il2CppOutputProject/Source/il2cppOutput --cachedirectory=C:/Users/A/AndroidStudioProjects/M_Z/android/unityLibrary/build/il2cpp_arm64-v8a_Release/il2cpp_cache --tool-chain-path=C:\\Users\\A\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973"
+}

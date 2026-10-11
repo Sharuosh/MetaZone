@@ -1,8 +1,10 @@
-// lib/services/unity_bridge.dart
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_embed_unity/flutter_embed_unity.dart';
 
+/// MetaZone Flutter -> Unity command gateway.
+///
+/// Keeps the existing public commands and adds the AR placement/editing
+/// contract used by the V1 Object flow.
 class UnityBridge {
   UnityBridge._();
 
@@ -14,12 +16,12 @@ class UnityBridge {
 
   void attach() {
     _isConnected = true;
-    debugPrint("UnityBridge: Connected");
+    debugPrint('UnityBridge: Connected');
   }
 
   void detach() {
     _isConnected = false;
-    debugPrint("UnityBridge: Disconnected");
+    debugPrint('UnityBridge: Disconnected');
   }
 
   void sendMessage({
@@ -28,90 +30,82 @@ class UnityBridge {
     required String message,
   }) {
     if (!_isConnected) {
-      debugPrint("UnityBridge: Unity is not connected.");
+      debugPrint('UnityBridge: Unity is not connected.');
       return;
     }
 
-    sendToUnity(
-      objectName,
-      methodName,
-      message,
-    );
+    sendToUnity(objectName, methodName, message);
   }
 
-  // ==========================
-  // Assets
-  // ==========================
+  void selectAsset(String assetId) => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'SelectAsset',
+    message: assetId,
+  );
 
-  void selectAsset(String assetId) {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "SelectAsset",
-      message: assetId,
-    );
-  }
+  void startSurfaceScan() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'StartSurfaceScan',
+    message: '',
+  );
 
-  // ==========================
-  // Scene
-  // ==========================
+  void placeObject() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'PlaceObject',
+    message: '',
+  );
 
-  void clearScene() {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "ClearScene",
-      message: "",
-    );
-  }
+  void cancelPlacement() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'CancelPlacement',
+    message: '',
+  );
 
-  void saveScene() {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "SaveScene",
-      message: "",
-    );
-  }
+  void clearScene() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'ClearScene',
+    message: '',
+  );
 
-  void loadScene() {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "LoadScene",
-      message: "",
-    );
-  }
+  void saveScene() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'SaveScene',
+    message: '',
+  );
 
-  // ==========================
-  // Objects
-  // ==========================
+  void loadScene() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'LoadScene',
+    message: '',
+  );
 
-  void deleteSelected() {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "DeleteSelected",
-      message: "",
-    );
-  }
+  void deleteSelected() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'DeleteSelected',
+    message: '',
+  );
 
-  void duplicateSelected() {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "DuplicateSelected",
-      message: "",
-    );
-  }
+  void duplicateSelected() => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'DuplicateSelected',
+    message: '',
+  );
 
-  void rotateSelected(double angle) {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "RotateSelected",
-      message: angle.toString(),
-    );
-  }
+  void moveSelected(double x, double y, double z) => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'MoveSelected',
+    message: '$x,$y,$z',
+  );
 
-  void scaleSelected(double scale) {
-    sendMessage(
-      objectName: "FlutterBridge",
-      methodName: "ScaleSelected",
-      message: scale.toString(),
-    );
-  }
+  void rotateSelected(double angle) => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'RotateSelected',
+    message: angle.toString(),
+  );
+
+  void scaleSelected(double scale) => sendMessage(
+    objectName: 'FlutterBridge',
+    methodName: 'ScaleSelected',
+    message: scale.toString(),
+  );
 }

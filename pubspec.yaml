@@ -1,11 +1,14 @@
 name: meta_zone
-description: MetaZone – AR Social Experience
+
+description: MetaZone – Digital Layer for the Real World
+
 publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.9.2 <4.0.0"
+  flutter: ">=3.35.7"
 
 dependencies:
   flutter:
@@ -14,91 +17,176 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  # ─────────────────────────────────────────────
   # Localization
+  # ─────────────────────────────────────────────
   intl: ^0.20.2
 
+  # ─────────────────────────────────────────────
   # Dependency Injection
-  get_it: ^8.0.3
+  # ─────────────────────────────────────────────
+  get_it: ^9.3.0
 
+  # ─────────────────────────────────────────────
   # Navigation
-  go_router: ^16.0.0
+  # ─────────────────────────────────────────────
+  go_router: ^17.0.1
 
-  # Equality
+  # ─────────────────────────────────────────────
+  # Equality / Models
+  # ─────────────────────────────────────────────
   equatable: ^2.0.7
 
+  # ─────────────────────────────────────────────
   # Fonts
-  google_fonts: ^4.0.4
+  # ─────────────────────────────────────────────
+  google_fonts: ^8.1.0
 
+  # ─────────────────────────────────────────────
+  # UI / Loading
+  # ─────────────────────────────────────────────
+  shimmer: ^3.0.0
+  flutter_staggered_grid_view: ^0.7.0
+  font_awesome_flutter: ^10.12.0
+
+  # ─────────────────────────────────────────────
   # Firebase
-  firebase_core: ^3.6.0
-  firebase_auth: ^5.3.1
-  cloud_firestore: ^5.4.4
-  firebase_storage: ^12.3.2
-  firebase_messaging: ^15.1.3
+  # ─────────────────────────────────────────────
+  firebase_core: ^3.15.2
+  firebase_auth: ^5.7.0
+  cloud_firestore: ^5.6.12
+  firebase_storage: ^12.4.10
+  firebase_messaging: ^15.2.10
+  firebase_ai: ^2.3.0
+  firebase_app_check: ^0.3.2+10
 
-  google_sign_in: ^6.2.1
+  google_sign_in: ^7.2.0
 
-  shimmer: ^2.0.0
-  flutter_staggered_grid_view: ^0.6.2
+  # ─────────────────────────────────────────────
+  # Networking
+  # ─────────────────────────────────────────────
+  dio: ^5.9.0
 
-  package_info_plus: ^8.0.2
+  # ─────────────────────────────────────────────
+  # Connectivity
+  # ─────────────────────────────────────────────
   internet_connection_checker_plus: ^2.5.2
 
-  # Location & Sensors
-  geolocator: ^12.0.0
-  geolocator_android: ^4.6.0
-  location: ^5.0.3
-  flutter_compass: ^0.8.0
+  # ─────────────────────────────────────────────
+  # Location / Geocoding
+  # ─────────────────────────────────────────────
+  geolocator: ^13.0.4
+  geocoding: ^5.0.0
+
+  # ─────────────────────────────────────────────
+  # Sensors / Compass
+  # ─────────────────────────────────────────────
+  flutter_compass: ^0.8.1
   sensors_plus: ^4.0.2
+
+  # ─────────────────────────────────────────────
+  # Permissions
+  # ─────────────────────────────────────────────
   permission_handler: ^12.0.1
 
+  # ─────────────────────────────────────────────
   # Camera
-  camera: ^0.11.2+1
+  # ─────────────────────────────────────────────
+  camera: ^0.12.0+1
 
-  # Storage
-  shared_preferences: ^2.2.2
+  # ─────────────────────────────────────────────
+  # Maps
+  # ─────────────────────────────────────────────
+  google_maps_flutter: ^2.14.2
 
-  # Files
+  # ─────────────────────────────────────────────
+  # Images / Media
+  # ─────────────────────────────────────────────
+  image_picker: ^1.2.2
+  cached_network_image: ^3.4.1
+
+  # ─────────────────────────────────────────────
+  # Storage / Files
+  # ─────────────────────────────────────────────
+  shared_preferences: ^2.5.3
+  path_provider: ^2.1.5
   file_picker: ^8.0.7
 
-  # Maps
-  google_maps_flutter: ^2.7.0
-
-  # Media
-  image_picker: ^1.1.2
-
-  # QR & Share
+  # ─────────────────────────────────────────────
+  # QR / Sharing
+  # ─────────────────────────────────────────────
   qr_flutter: ^4.1.0
   share_plus: ^7.0.0
 
+  # ─────────────────────────────────────────────
+  # App Information
+  # ─────────────────────────────────────────────
+  package_info_plus: ^8.0.2
+
+  # ─────────────────────────────────────────────
   # Utilities
+  # ─────────────────────────────────────────────
   uuid: ^4.5.3
 
-  font_awesome_flutter: ^10.12.0
-
+  # ─────────────────────────────────────────────
   # Unity
+  # ─────────────────────────────────────────────
   flutter_embed_unity: ^1.4.0
-
+  maplibre_gl: ^0.27.1
+  url_launcher: ^6.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^5.0.0
+
   flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
 
+  generate: true
+
   assets:
-    - assets/images/logo.png
-    - assets/images/background.jpg
-    - assets/images/app_icon.png
-    - assets/images/map_preview.jpg
-    - assets/images/user_avatar.png
+    - assets/images/
     - assets/lang/
+
+    # ───────────────────────────────────────────
+    # Governorate Visual System
+    # ───────────────────────────────────────────
+
+    - assets/images/governorates/CAI/
+    - assets/images/governorates/GIZ/
+    - assets/images/governorates/ALX/
+    - assets/images/governorates/QLY/
+    - assets/images/governorates/DKH/
+    - assets/images/governorates/SHR/
+    - assets/images/governorates/GHB/
+    - assets/images/governorates/MNF/
+    - assets/images/governorates/BHR/
+    - assets/images/governorates/KFS/
+    - assets/images/governorates/DMT/
+    - assets/images/governorates/PSD/
+    - assets/images/governorates/ISM/
+    - assets/images/governorates/SUZ/
+    - assets/images/governorates/NSI/
+    - assets/images/governorates/SSI/
+    - assets/images/governorates/RDS/
+    - assets/images/governorates/NVL/
+    - assets/images/governorates/MTR/
+    - assets/images/governorates/FYM/
+    - assets/images/governorates/BSF/
+    - assets/images/governorates/MNY/
+    - assets/images/governorates/ASY/
+    - assets/images/governorates/SHG/
+    - assets/images/governorates/QNA/
+    - assets/images/governorates/LXR/
+    - assets/images/governorates/ASW/
 
 flutter_launcher_icons:
   android: true
   ios: true
+
   image_path: assets/images/app_icon.png
+
   min_sdk_android: 30

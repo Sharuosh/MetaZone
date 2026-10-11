@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 import 'firebase_options.dart';
 
@@ -14,6 +15,14 @@ Future<void> main() async {
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    // Development/testing configuration.
+    //
+    // App Check must be activated after Firebase.initializeApp()
+    // and before MetaZone starts using Firebase-backed services.
+    await FirebaseAppCheck.instance.activate(
+      androidProvider: AndroidProvider.debug,
     );
   } catch (_) {}
 

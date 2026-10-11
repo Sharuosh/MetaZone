@@ -11,7 +11,7 @@ abstract final class AppRoutePaths {
 
   static const forgotPassword = '/forgot-password';
 
-  static const home = '/home';
+  static const home = '/home1';
 
   static const explore = '/explore';
 

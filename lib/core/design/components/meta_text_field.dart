@@ -56,7 +56,7 @@ class MetaTextField extends StatelessWidget {
       maxLines: maxLines,
       onChanged: onChanged,
       onSubmitted: onSubmitted,
-      style: AppTextStyles.body.copyWith(
+      style: AppTextStyles.body(
         color: AppColors.text,
       ),
       decoration: InputDecoration(
@@ -78,7 +78,7 @@ class MetaTextField extends StatelessWidget {
 
         contentPadding: AppSpacing.button,
 
-        hintStyle: AppTextStyles.body.copyWith(
+        hintStyle: AppTextStyles.body(
           color: AppColors.textMuted,
         ),
 

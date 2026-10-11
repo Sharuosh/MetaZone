@@ -11,7 +11,7 @@ abstract final class AppRouteNames {
 
   static const forgotPassword = 'forgotPassword';
 
-  static const home = 'home';
+  static const home = 'home1';
 
   static const explore = 'explore';
 

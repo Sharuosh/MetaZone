@@ -21,7 +21,7 @@ abstract final class NavigationConstants {
 
   static const String defaultUnknownRoute = '/404';
 
-  static const String defaultHomeRoute = '/home';
+  static const String defaultHomeRoute = '/home1';
 
   static const String defaultLoginRoute = '/login';
 

@@ -525,7 +525,7 @@ mono_ftnptr_to_delegate_impl (MonoClass *klass, gpointer ftn, MonoError *error)
 
 	g_assert (!MONO_HANDLE_IS_NULL (d));
 	if (MONO_HANDLE_DOMAIN (d) != mono_domain_get ())
-		mono_error_set_not_supported (error, "Delegates cannot be marshalled from native code into a domain other than their home domain");
+		mono_error_set_not_supported (error, "Delegates cannot be marshalled from native code into a domain other than their home1 domain");
 leave:
 	return d;
 }

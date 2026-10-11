@@ -64,3 +64,7 @@ app.*.map.json
 
 # Unity generated symbols
 android/unityLibrary/symbols/
+# Local logs and generated Unity debug symbols
+/metazone_log.txt
+/android/unityLibrary/unityLibrary/src/main/jniLibs/arm64-v8a/libil2cpp.dbg.so
+/android/unityLibrary/unityLibrary/symbols/

@@ -6,8 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../home/home_screen.dart';
-
+import 'package:meta_zone/screens/home/presentation/home_screen.dart';
 class OTPVerificationScreen extends StatefulWidget {
   const OTPVerificationScreen({super.key});
 

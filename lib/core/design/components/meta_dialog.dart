@@ -52,7 +52,7 @@ class MetaDialog extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: AppTextStyles.title.copyWith(
+              style: AppTextStyles.title(
                 color: AppColors.text,
               ),
             ),
@@ -60,7 +60,7 @@ class MetaDialog extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: AppTextStyles.body.copyWith(
+              style: AppTextStyles.body(
                 color: AppColors.textSecondary,
               ),
             ),

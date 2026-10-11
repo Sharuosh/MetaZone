@@ -1,4 +1,4 @@
-// File: lib/screens/marketplace/home.dart
+// File: lib/screens/marketplace/home1.dart
 // Marketplace Home — MetaZone
 // Clean + corrected version
 

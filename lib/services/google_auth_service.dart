@@ -3,43 +3,123 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuthService {
-  static final _auth = FirebaseAuth.instance;
-  static final _users = FirebaseFirestore.instance.collection("users");
+  GoogleAuthService._();
+
+  static final FirebaseAuth _auth =
+      FirebaseAuth.instance;
+
+  static final CollectionReference<Map<String, dynamic>>
+  _users =
+  FirebaseFirestore.instance.collection('users');
+
+  static final GoogleSignIn _googleSignIn =
+      GoogleSignIn.instance;
+
+  static bool _initialized = false;
+
+  static Future<void> _initialize() async {
+    if (_initialized) {
+      return;
+    }
+
+    await _googleSignIn.initialize();
+
+    _initialized = true;
+  }
 
   static Future<UserCredential?> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      await _initialize();
 
-      if (googleUser == null) return null;
-
-      final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      final userCred = await _auth.signInWithCredential(credential);
-      final user = userCred.user!;
-
-      final doc = await _users.doc(user.uid).get();
-
-      if (!doc.exists) {
-        await _users.doc(user.uid).set({
-          "uid": user.uid,
-          "email": user.email,
-          "name": user.displayName ?? "Meta User",
-          "avatar": user.photoURL,
-          "provider": "google",
-          "createdAt": FieldValue.serverTimestamp(),
-        });
+      if (!_googleSignIn.supportsAuthenticate()) {
+        throw StateError(
+          'Google Sign-In authentication is not '
+              'supported on this platform.',
+        );
       }
 
-      return userCred;
-    } catch (e) {
-      print("GOOGLE LOGIN ERROR: $e");
-      rethrow;
+      final GoogleSignInAccount googleUser =
+      await _googleSignIn.authenticate();
+
+      final GoogleSignInAuthentication googleAuth =
+          googleUser.authentication;
+
+      final String? idToken =
+          googleAuth.idToken;
+
+      if (idToken == null ||
+          idToken.trim().isEmpty) {
+        throw StateError(
+          'Google Sign-In returned no ID token.',
+        );
+      }
+
+      final OAuthCredential credential =
+      GoogleAuthProvider.credential(
+        idToken: idToken,
+      );
+
+      final UserCredential userCredential =
+      await _auth.signInWithCredential(
+        credential,
+      );
+
+      final User? user =
+          userCredential.user;
+
+      if (user == null) {
+        return null;
+      }
+
+      final DocumentReference<
+          Map<String, dynamic>>
+      userReference =
+      _users.doc(user.uid);
+
+      final DocumentSnapshot<
+          Map<String, dynamic>>
+      document =
+      await userReference.get();
+
+      if (!document.exists) {
+        await userReference.set(
+          {
+            'uid': user.uid,
+            'email': user.email,
+            'name':
+            user.displayName ?? 'Meta User',
+            'avatar': user.photoURL,
+            'provider': 'google',
+            'createdAt':
+            FieldValue.serverTimestamp(),
+            'lastLogin':
+            FieldValue.serverTimestamp(),
+          },
+        );
+      } else {
+        await userReference.update(
+          {
+            'lastLogin':
+            FieldValue.serverTimestamp(),
+          },
+        );
+      }
+
+      return userCredential;
+    } on GoogleSignInException catch (error) {
+      throw StateError(
+        'Google Sign-In failed: '
+            '${error.code} ${error.description ?? ''}',
+      );
+    } catch (error) {
+      throw StateError(
+        'Google Sign-In failed: $error',
+      );
     }
+  }
+
+  static Future<void> signOutGoogle() async {
+    await _initialize();
+    await _googleSignIn.signOut();
   }
 }

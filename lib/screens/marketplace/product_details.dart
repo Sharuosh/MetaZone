@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import '../../core/theme/theme.dart';
-import '../../features/ar_camera/presentation/ar_camera_live_view.dart';
 
 // A self-contained Product Details screen for MetaZone marketplace.
 // - 3D viewer placeholder
@@ -61,10 +60,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int _qty = 1;
 
   void _openARTry() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => ARCameraLiveViewScreen(initialSpotId: _product['id'])),
-    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        const SnackBar(
+          content: Text(
+            'AR Preview will be connected to the new MetaZone AR runtime.',
+          ),
+        ),
+      );
   }
 
   void _addToCart() {

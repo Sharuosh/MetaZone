@@ -728,7 +728,7 @@ g_convert (const gchar *str, gssize len, const gchar *to_charset, const gchar *f
 
 /**
  * An explanation of the conversion can be found at:
- * http://home.tiscali.nl/t876506/utf8tbl.html
+ * http://home1.tiscali.nl/t876506/utf8tbl.html
  *
  **/
 gint
